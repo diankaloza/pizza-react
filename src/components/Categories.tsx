@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 type CategoriesProps = {
   categoryId: number;
@@ -7,8 +7,6 @@ type CategoriesProps = {
 
 export const Categories: React.FC<CategoriesProps> = React.memo(
   ({ categoryId, onClickCategory }) => {
-    console.log("category render");
-
     const categories = [
       "Всі",
       `М'ясні`,

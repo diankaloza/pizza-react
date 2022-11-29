@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { stat } from "fs";
 import { I_CartSlice, T_CartItem } from "redux/cart/types";
 import { RootState } from "redux/store";
+import { isTemplateExpression } from "typescript";
 import { calcTotalPrice } from "utils/calcTotalPrice";
 import { getCartFromLS } from "utils/getCartfromLS";
 
@@ -27,13 +29,16 @@ const cartSlice = createSlice({
       }
       state.totalPrice = calcTotalPrice(state.items);
     },
-    removeItem(state, action: PayloadAction<string>) {
-      state.items = state.items.filter((item) => item.id !== action.payload);
+    removeItem(state, action: PayloadAction<T_CartItem>) {
+      state.items = state.items.filter((item) => item.id !== action.payload.id);
+      state.totalPrice =
+        state.totalPrice - action.payload.price * action.payload.count;
     },
     minusItem(state, action: PayloadAction<string>) {
       const findItem = state.items.find((obj) => obj.id === action.payload);
       if (findItem) {
         findItem.count--;
+        state.totalPrice = state.totalPrice - findItem.price;
       }
     },
     clearItems(state) {

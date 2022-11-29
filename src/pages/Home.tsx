@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext, useRef, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef, useCallback } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import qs from "qs";
@@ -8,7 +8,7 @@ import { Categories } from "../components/Categories";
 import { Pagination } from "../components/Pagination";
 import { PizzaBlock } from "../components/PizzaBlock";
 import Skeleton from "../components/Skeleton";
-import { SortPopup, list, SortItem } from "../components/Sort";
+import { SortPopup, list } from "../components/Sort";
 import { fetchPizzas } from "redux/pizza/slice";
 import { useAppDispatch, RootState } from "redux/store";
 import { setCategoryId, setCurrentPage, setFilters } from "redux/filter/slice";
@@ -37,7 +37,7 @@ export const Home: React.FC = () => {
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
 
     const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const search = searchValue ? `&search = ${searchValue}` : "";
+    const search = searchValue ? `&search=${searchValue}` : "";
 
     /*fetch(
       `https://6314fc585b85ba9b11dae920.mockapi.io/collections?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
@@ -73,7 +73,7 @@ export const Home: React.FC = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, [categoryId, sort.sortProperty, currentPage]);
+  }, [categoryId, sort.sortProperty, currentPage, searchValue]);
 
   //якщо був перший рендер то перевіряєм url параметри і зберігаємо в редакс
   useEffect(() => {
@@ -90,21 +90,17 @@ export const Home: React.FC = () => {
           currentPage,
         })
       );
-      isSearch.current = true;
     }
   }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!isSearch.current) {
-      getPizzas();
-    }
-    isSearch.current = false;
+    getPizzas();
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   const filteredPizzas =
-    //Статичний фільтр за допомогою JS
-    /*pizzas
+    // Статичний фільтр за допомогою JS
+    /* pizzas
     .filter((pizza) => {
       if (pizza.title.toLowerCase().includes(searchValue.toLowerCase())) {
         return true;

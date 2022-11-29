@@ -36,7 +36,7 @@ export const CartItem: React.FC<CartItemProps> = ({
   };
 
   const onClickRemove = () => {
-    dispatch(removeItem(id));
+    dispatch(removeItem({ id, price, count } as T_CartItem));
   };
 
   return (

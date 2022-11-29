@@ -1,4 +1,3 @@
-import { IconBase } from "react-icons/lib";
 import { Link } from "react-router-dom";
 import cartEmptyImg from "../assets/img/empty-cart.png";
 
