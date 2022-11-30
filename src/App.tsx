@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import "./scss/app.scss";
 
@@ -17,12 +17,12 @@ function App() {
       <div className="wrapper">
         <Header />
         <div className="content">
-          <HashRouter>
+          <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/pizza/:id" element={<PizzaCart />} />
-          </HashRouter>
+          </Routes>
         </div>
       </div>
     </div>
